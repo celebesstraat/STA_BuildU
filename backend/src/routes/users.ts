@@ -1,15 +1,11 @@
 import express from 'express';
-import { createClient } from '@supabase/supabase-js';
+import supabase from '../utils/database';
 import { authenticateToken } from '../middleware/auth';
-import { User, ApiResponse } from '../types';
+import { calculateStreak } from '../utils/streaks';
 
 const router = express.Router();
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
+
 
 // Apply authentication middleware to all routes
 router.use(authenticateToken);
@@ -150,22 +146,7 @@ router.get('/dashboard', async (req, res) => {
     const completedGoals = goals?.filter(g => g.status === 'completed').length || 0;
     const progressPercentage = totalGoals > 0 ? Math.round((completedGoals / totalGoals) * 100) : 0;
 
-    // Calculate streak (simplified - consecutive days with updates)
-    const today = new Date();
-    let streak = 0;
-    
-    if (recentUpdates && recentUpdates.length > 0) {
-      // Check if there's activity today
-      const todayString = today.toDateString();
-      const hasActivityToday = recentUpdates.some(update => 
-        new Date(update.created_at).toDateString() === todayString
-      );
-      
-      if (hasActivityToday) {
-        streak = 1; // Simplified streak calculation for MVP
-        // In production, implement proper consecutive day counting
-      }
-    }
+    const streak = calculateStreak(recentUpdates);
 
     // Get next milestone or focus
     const { data: upcomingMilestones } = await supabase

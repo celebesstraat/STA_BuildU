@@ -1,0 +1,31 @@
+{
+  "name": "buildu-scotland-platform",
+  "version": "1.0.0",
+  "description": "A web-based goal tracking and motivational platform supporting women in Buildu Scotland's employability programme.",
+  "main": "playwright-snapshot.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "npx playwright test",
+    "mcp": "ts-node mcp-server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/celebesstraat/STA_BuildU.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/celebesstraat/STA_BuildU/issues"
+  },
+  "homepage": "https://github.com/celebesstraat/STA_BuildU#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.3.0"
+  },
+  "dependencies": {
+    "playwright-mcp": "^0.0.12"
+  }
+}

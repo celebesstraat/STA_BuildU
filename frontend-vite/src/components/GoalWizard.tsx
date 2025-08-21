@@ -212,7 +212,7 @@ const GoalWizard = ({ onComplete, onClose }: { onComplete: (goal: GoalData) => v
                     {categoryOptions.map((option) => (
                       <div
                         key={option.value}
-                        onClick={() => setGoalData(prev => ({ ...prev, category: option.value as any }))}
+                        onClick={() => setGoalData(prev => ({ ...prev, category: option.value as 'employment' | 'skills' | 'wellbeing' | 'childcare' | 'other' }))}
                         className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                           goalData.category === option.value
                             ? 'border-purple-500 bg-purple-50'
@@ -239,7 +239,7 @@ const GoalWizard = ({ onComplete, onClose }: { onComplete: (goal: GoalData) => v
                     {priorityOptions.map((option) => (
                       <button
                         key={option.value}
-                        onClick={() => setGoalData(prev => ({ ...prev, priority: option.value as any }))}
+                        onClick={() => setGoalData(prev => ({ ...prev, priority: option.value as 'low' | 'medium' | 'high' }))}
                         className={`px-4 py-2 rounded-lg border-2 transition-all ${
                           goalData.priority === option.value
                             ? option.color

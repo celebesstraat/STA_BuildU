@@ -1,96 +1,17 @@
 import express from 'express';
-import { createClient } from '@supabase/supabase-js';
+import supabase from '../utils/database';
 import { authenticateToken } from '../middleware/auth';
 import { AIRequest, AIResponse, ApiResponse, MotivationalContent } from '../types';
 
 const router = express.Router();
 
 // Initialize Supabase client
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
+
 
 // Apply authentication middleware to all routes
 router.use(authenticateToken);
 
-// Motivational quotes database (fallback for when AI is not available)
-const motivationalQuotes = [
-  {
-    content: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-    author: "Winston Churchill",
-    category: "perseverance"
-  },
-  {
-    content: "The future belongs to those who believe in the beauty of their dreams.",
-    author: "Eleanor Roosevelt",
-    category: "dreams"
-  },
-  {
-    content: "It is during our darkest moments that we must focus to see the light.",
-    author: "Aristotle",
-    category: "resilience"
-  },
-  {
-    content: "Believe you can and you're halfway there.",
-    author: "Theodore Roosevelt",
-    category: "confidence"
-  },
-  {
-    content: "The only impossible journey is the one you never begin.",
-    author: "Tony Robbins",
-    category: "motivation"
-  },
-  {
-    content: "Your limitation—it's only your imagination.",
-    author: "Unknown",
-    category: "potential"
-  },
-  {
-    content: "Great things never come from comfort zones.",
-    author: "Unknown",
-    category: "growth"
-  },
-  {
-    content: "Dream it. Wish it. Do it.",
-    author: "Unknown",
-    category: "action"
-  },
-  {
-    content: "Success doesn't just find you. You have to go out and get it.",
-    author: "Unknown",
-    category: "proactive"
-  },
-  {
-    content: "The harder you work for something, the greater you'll feel when you achieve it.",
-    author: "Unknown",
-    category: "achievement"
-  }
-];
 
-// Goal setting tips
-const goalSettingTips = [
-  {
-    title: "Start Small, Think Big",
-    content: "Break your larger goal into smaller, manageable steps. Each small win builds momentum toward your bigger achievement."
-  },
-  {
-    title: "Write It Down",
-    content: "Goals that are written down are 42% more likely to be achieved. Make your intentions concrete and visible."
-  },
-  {
-    title: "Set a Deadline",
-    content: "A goal without a deadline is just a wish. Give yourself a specific timeframe to create urgency and accountability."
-  },
-  {
-    title: "Visualize Success",
-    content: "Spend time imagining yourself achieving your goal. Visualization helps your brain recognize the resources needed to succeed."
-  },
-  {
-    title: "Track Your Progress",
-    content: "Regular check-ins keep you motivated and help you adjust your approach when needed."
-  }
-];
 
 // Basic AI chat endpoint (uses simple responses for now)
 router.post('/chat', async (req, res) => {
@@ -110,7 +31,17 @@ router.post('/chat', async (req, res) => {
     let response = '';
     let suggestions: string[] = [];
 
+    const { data: motivationalQuotes } = await supabase.from('motivational_content').select('content, author, category').eq('type', 'quote');
+    const { data: goalSettingTips } = await supabase.from('motivational_content').select('title, content').eq('type', 'tip');
+
     const messageLower = message.toLowerCase();
+
+    if (!motivationalQuotes || !goalSettingTips) {
+      return res.status(500).json({
+        success: false,
+        error: 'Could not fetch motivational content'
+      } as ApiResponse);
+    }
 
     if (messageLower.includes('goal') || messageLower.includes('achieve')) {
       const randomTip = goalSettingTips[Math.floor(Math.random() * goalSettingTips.length)];
@@ -185,6 +116,15 @@ router.get('/inspiration', async (req, res) => {
     const userId = req.user!.id;
     
     // Get today's date for consistent daily content
+    const { data: motivationalQuotes } = await supabase.from('motivational_content').select('content, author, category').eq('type', 'quote');
+
+    if (!motivationalQuotes) {
+      return res.status(500).json({
+        success: false,
+        error: 'Could not fetch motivational content'
+      } as ApiResponse);
+    }
+
     const today = new Date().toDateString();
     const seed = today + userId;
     const randomIndex = Math.abs(seed.split('').reduce((a, b) => {
@@ -225,7 +165,6 @@ router.get('/tips', async (req, res) => {
   try {
     const userId = req.user!.id;
 
-    // Get user's active goals to personalize tips
     const { data: goals } = await supabase
       .from('goals')
       .select('category, status')
@@ -237,40 +176,37 @@ router.get('/tips', async (req, res) => {
     const hasSkillsGoals = categories.includes('skills');
     const hasWellbeingGoals = categories.includes('wellbeing');
 
-    let tips = [];
+    const { data: tips } = await supabase.from('motivational_content').select('title, content, category').eq('type', 'tip');
+
+    if (!tips) {
+      return res.status(500).json({
+        success: false,
+        error: 'Could not fetch motivational content'
+      } as ApiResponse);
+    }
+
+    let filteredTips = [];
 
     if (hasEmploymentGoals) {
-      tips.push({
-        title: "Job Search Success Tip",
-        content: "Set aside 30 minutes each day for job search activities. Consistency beats intensity when building career momentum."
-      });
+      filteredTips.push(...tips.filter(t => t.category === 'employment'));
     }
 
     if (hasSkillsGoals) {
-      tips.push({
-        title: "Skill Development Tip",
-        content: "Practice new skills for just 15 minutes daily. Small, consistent practice leads to significant improvement over time."
-      });
+      filteredTips.push(...tips.filter(t => t.category === 'skills'));
     }
 
     if (hasWellbeingGoals) {
-      tips.push({
-        title: "Wellbeing Tip",
-        content: "Celebrate small wins! Acknowledging your progress, no matter how small, builds confidence and motivation."
-      });
+      filteredTips.push(...tips.filter(t => t.category === 'wellbeing'));
     }
 
     // Default tips if no specific goals
-    if (tips.length === 0) {
-      tips.push({
-        title: "Getting Started Tip",
-        content: "Begin with one small, achievable goal. Success builds upon success, and every journey starts with a single step."
-      });
+    if (filteredTips.length === 0) {
+      filteredTips.push(...tips.filter(t => t.category === 'goal-setting'));
     }
 
     res.json({
       success: true,
-      data: tips
+      data: filteredTips
     } as ApiResponse);
 
   } catch (error) {

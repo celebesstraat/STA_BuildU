@@ -1,18 +1,29 @@
 import express from 'express';
-import { createClient } from '@supabase/supabase-js';
+import supabase from '../utils/database';
 import { authenticateToken } from '../middleware/auth';
 import { ProgressUpdate, ApiResponse } from '../types';
 
 const router = express.Router();
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
+
 
 // Apply authentication middleware to all routes
 router.use(authenticateToken);
+
+const transformProgressUpdate = (update: any): ProgressUpdate => ({
+  id: update.id,
+  goalId: update.goal_id,
+  milestoneId: update.milestone_id,
+  userId: update.user_id,
+  updateType: update.update_type,
+  title: update.title,
+  description: update.description,
+  evidenceUrl: update.evidence_url,
+  evidenceType: update.evidence_type,
+  progressPercentage: update.progress_percentage,
+  mood: update.mood,
+  createdAt: update.created_at,
+});
 
 // Create progress update
 router.post('/', async (req, res) => {
@@ -82,7 +93,7 @@ router.post('/', async (req, res) => {
 
     res.status(201).json({
       success: true,
-      data: progressUpdate,
+      data: transformProgressUpdate(progressUpdate),
       message: 'Progress update created successfully'
     } as ApiResponse<ProgressUpdate>);
 
@@ -133,7 +144,7 @@ router.get('/goal/:goalId', async (req, res) => {
 
     res.json({
       success: true,
-      data: updates || []
+      data: updates?.map(transformProgressUpdate) || []
     } as ApiResponse<ProgressUpdate[]>);
 
   } catch (error) {

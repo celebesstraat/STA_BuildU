@@ -1,15 +1,11 @@
 import express from 'express';
-import { createClient } from '@supabase/supabase-js';
+import supabase from '../utils/database';
 import { authenticateToken } from '../middleware/auth';
 import { Goal, Milestone, CreateGoalRequest, UpdateGoalRequest, ApiResponse, PaginatedResponse } from '../types';
 
 const router = express.Router();
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
+
 
 // Apply authentication middleware to all routes
 router.use(authenticateToken);
