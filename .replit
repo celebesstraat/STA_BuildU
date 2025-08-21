@@ -10,3 +10,19 @@ run = ["sh", "-c", "cd backend && npm install && npm run dev"]
 [[ports]]
 localPort = 3001
 externalPort = 80
+
+[workflows]
+runButton = "Start Full App"
+
+[[workflows.workflow]]
+name = "Start Full App"
+author = 22319721
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && npm install && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend-vite && npm install && npm run dev"
