@@ -19,7 +19,7 @@ function App() {
                 ✕
               </button>
             </div>
-            
+
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-3">
@@ -28,10 +28,10 @@ function App() {
                 <input 
                   type="text" 
                   placeholder="e.g., Find a part-time job in retail"
-                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 transition-colors"
+                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition-colors"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-3">
                   Why is this important to you?
@@ -39,7 +39,7 @@ function App() {
                 <textarea 
                   rows={4}
                   placeholder="Describe why this goal matters to you..."
-                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 transition-colors"
+                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition-colors"
                 />
               </div>
 
@@ -48,7 +48,7 @@ function App() {
                   <label className="block text-sm font-semibold text-gray-700 mb-3">
                     Category
                   </label>
-                  <select className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 transition-colors">
+                  <select className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition-colors">
                     <option>Employment</option>
                     <option>Skills</option>
                     <option>Wellbeing</option>
@@ -60,11 +60,11 @@ function App() {
                   </label>
                   <input 
                     type="date" 
-                    className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 transition-colors"
+                    className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition-colors"
                   />
                 </div>
               </div>
-              
+
               <div className="flex gap-4 pt-6">
                 <button 
                   onClick={() => setShowGoalForm(false)}
@@ -74,7 +74,7 @@ function App() {
                 </button>
                 <button 
                   onClick={() => setShowGoalForm(false)}
-                  className="flex-1 py-4 px-6 bg-gradient-to-r from-purple-600 to-orange-500 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-orange-600 transition-all shadow-lg"
+                  className="flex-1 py-4 px-6 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all shadow-lg"
                 >
                   Create Goal
                 </button>
@@ -91,7 +91,7 @@ function App() {
       <div className="min-h-screen bg-gray-100 p-4">
         <div className="max-w-3xl mx-auto">
           <div className="bg-white rounded-xl shadow-lg h-[600px] flex flex-col">
-            <div className="bg-gradient-to-r from-purple-600 to-orange-500 text-white p-6 rounded-t-xl">
+            <div className="bg-blue-600 text-white p-6 rounded-t-xl">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-3">
@@ -99,7 +99,7 @@ function App() {
                   </div>
                   <div>
                     <h2 className="text-xl font-bold">AI Coach</h2>
-                    <p className="text-purple-100 text-sm">Here to support your journey</p>
+                    <p className="text-blue-100 text-sm">Here to support your journey</p>
                   </div>
                 </div>
                 <button 
@@ -110,11 +110,11 @@ function App() {
                 </button>
               </div>
             </div>
-            
+
             <div className="flex-1 p-6 overflow-y-auto">
               <div className="bg-gray-50 rounded-xl p-4 mb-4">
                 <div className="flex items-start space-x-3">
-                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <MessageCircle className="h-4 w-4 text-white" />
                   </div>
                   <div>
@@ -122,10 +122,10 @@ function App() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex justify-center mb-4">
                 <div className="flex gap-2">
-                  <button className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm hover:bg-purple-200 transition-colors">
+                  <button className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm hover:bg-blue-200 transition-colors">
                     Ask for help
                   </button>
                   <button className="px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm hover:bg-orange-200 transition-colors">
@@ -134,15 +134,15 @@ function App() {
                 </div>
               </div>
             </div>
-            
+
             <div className="p-6 border-t border-gray-100">
               <div className="flex gap-3">
                 <input 
                   type="text" 
                   placeholder="Type your message..."
-                  className="flex-1 p-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 transition-colors"
+                  className="flex-1 p-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition-colors"
                 />
-                <button className="px-6 py-3 bg-gradient-to-r from-purple-600 to-orange-500 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-orange-600 transition-all">
+                <button className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all">
                   Send
                 </button>
               </div>
@@ -160,7 +160,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-orange-500 rounded-lg flex items-center justify-center mr-3">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
                 <Target className="h-5 w-5 text-white" />
               </div>
               <div>
@@ -185,11 +185,11 @@ function App() {
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-purple-600 to-orange-500 rounded-2xl p-8 mb-8 text-white">
+        <div className="bg-blue-600 text-white rounded-2xl p-8 mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-3xl font-bold mb-2">Good morning, Sarah! 👋</h2>
-              <p className="text-purple-100 text-lg">You're making amazing progress on your journey</p>
+              <p className="text-blue-100 text-lg">You're making amazing progress on your journey</p>
               <div className="flex gap-4 mt-4">
                 <div className="bg-white/20 rounded-full px-4 py-2">
                   <span className="text-sm font-medium">3 goals active</span>
@@ -208,14 +208,14 @@ function App() {
             {/* Progress Overview */}
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
               <h3 className="text-xl font-bold text-gray-900 mb-6 text-center">Your Journey Overview</h3>
-              
+
               <div className="flex justify-center mb-8">
                 <div className="relative w-40 h-40">
                   <svg className="w-40 h-40 transform -rotate-90" viewBox="0 0 160 160">
                     <defs>
                       <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#9333ea" />
-                        <stop offset="100%" stopColor="#f97316" />
+                        <stop offset="0%" stopColor="#2563eb" />
+                        <stop offset="100%" stopColor="#2563eb" />
                       </linearGradient>
                     </defs>
                     <circle
@@ -241,7 +241,7 @@ function App() {
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-purple-600">72%</div>
+                      <div className="text-4xl font-bold text-blue-600">72%</div>
                       <div className="text-sm text-gray-500">Complete</div>
                     </div>
                   </div>
@@ -269,18 +269,18 @@ function App() {
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-gray-900">Today's Focus</h3>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="flex items-center p-4 bg-gray-50 rounded-xl">
-                  <input type="checkbox" className="w-5 h-5 text-purple-600 rounded mr-4" />
+                  <input type="checkbox" className="w-5 h-5 text-blue-600 rounded mr-4" />
                   <div className="flex-1">
                     <h4 className="font-semibold text-gray-800">Complete online CV workshop</h4>
                     <p className="text-sm text-gray-600">Employment Skills • 30 minutes</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center p-4 bg-gray-50 rounded-xl">
-                  <input type="checkbox" className="w-5 h-5 text-purple-600 rounded mr-4" />
+                  <input type="checkbox" className="w-5 h-5 text-blue-600 rounded mr-4" />
                   <div className="flex-1">
                     <h4 className="font-semibold text-gray-800">Practice interview questions</h4>
                     <p className="text-sm text-gray-600">Personal Development • 15 minutes</p>
@@ -288,7 +288,7 @@ function App() {
                 </div>
 
                 <div className="flex items-center p-4 bg-gray-50 rounded-xl">
-                  <input type="checkbox" className="w-5 h-5 text-purple-600 rounded mr-4" />
+                  <input type="checkbox" className="w-5 h-5 text-blue-600 rounded mr-4" />
                   <div className="flex-1">
                     <h4 className="font-semibold text-gray-800">Update LinkedIn profile</h4>
                     <p className="text-sm text-gray-600">Networking • 20 minutes</p>
@@ -303,20 +303,20 @@ function App() {
                 <h3 className="text-xl font-bold text-gray-900">Your Active Goals</h3>
                 <button 
                   onClick={() => setShowGoalForm(true)}
-                  className="px-4 py-2 bg-gradient-to-r from-purple-600 to-orange-500 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-orange-600 transition-all flex items-center"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all flex items-center"
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   New Goal
                 </button>
               </div>
-              
+
               <div className="grid gap-6">
                 {/* Goal Card 1 */}
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center">
-                      <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mr-4">
-                        <Target className="w-6 h-6 text-purple-600" />
+                      <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4">
+                        <Target className="w-6 h-6 text-blue-600" />
                       </div>
                       <div>
                         <h4 className="font-bold text-gray-900">Find Employment</h4>
@@ -325,14 +325,14 @@ function App() {
                     </div>
                     <span className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">80%</span>
                   </div>
-                  
+
                   <div className="mb-4">
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-gray-600">Progress</span>
                       <span className="font-semibold">80%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="bg-gradient-to-r from-purple-600 to-orange-500 h-2 rounded-full" style={{width: '80%'}}></div>
+                      <div className="bg-blue-600 h-2 rounded-full" style={{width: '80%'}}></div>
                     </div>
                   </div>
 
@@ -351,7 +351,7 @@ function App() {
                     </div>
                   </div>
 
-                  <button className="w-full py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors">
+                  <button className="w-full py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors">
                     Update Progress
                   </button>
                 </div>
@@ -370,7 +370,7 @@ function App() {
                     </div>
                     <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">60%</span>
                   </div>
-                  
+
                   <div className="mb-4">
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-gray-600">Progress</span>
@@ -415,7 +415,7 @@ function App() {
                     </div>
                     <span className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">90%</span>
                   </div>
-                  
+
                   <div className="mb-4">
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-gray-600">Progress</span>
@@ -457,10 +457,10 @@ function App() {
                 <h3 className="text-lg font-bold text-gray-900">AI Coach</h3>
                 <div className="w-3 h-3 bg-green-500 rounded-full"></div>
               </div>
-              
+
               <div className="bg-gray-50 rounded-xl p-4 mb-4">
                 <div className="flex items-start space-x-3">
-                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <MessageCircle className="h-4 w-4 text-white" />
                   </div>
                   <div>
@@ -472,7 +472,7 @@ function App() {
               <div className="flex gap-2 mb-4">
                 <button 
                   onClick={() => setShowChat(true)}
-                  className="flex-1 py-2 px-4 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
+                  className="flex-1 py-2 px-4 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
                 >
                   Ask for help
                 </button>
@@ -488,7 +488,7 @@ function App() {
                 <h3 className="text-lg font-bold text-gray-900">Recent Achievements</h3>
                 <span className="text-2xl">🏆</span>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="flex items-center p-3 bg-green-50 rounded-xl">
                   <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3">
@@ -503,13 +503,13 @@ function App() {
                   </div>
                 </div>
 
-                <div className="flex items-center p-3 bg-purple-50 rounded-xl">
-                  <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mr-3">
+                <div className="flex items-center p-3 bg-blue-50 rounded-xl">
+                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
                     <Star className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <p className="font-semibold text-purple-800">7-Day Streak!</p>
-                    <p className="text-xs text-purple-600">2 days ago • Daily Goals</p>
+                    <p className="font-semibold text-blue-800">7-Day Streak!</p>
+                    <p className="text-xs text-blue-600">2 days ago • Daily Goals</p>
                   </div>
                   <div className="ml-auto">
                     <span className="text-lg">⭐</span>
@@ -530,7 +530,7 @@ function App() {
                 </div>
               </div>
 
-              <button className="w-full mt-4 py-2 text-purple-600 font-medium text-sm hover:bg-purple-50 rounded-lg transition-colors">
+              <button className="w-full mt-4 py-2 text-blue-600 font-medium text-sm hover:bg-blue-50 rounded-lg transition-colors">
                 View All Achievements
               </button>
             </div>
@@ -541,9 +541,9 @@ function App() {
                 <h3 className="text-lg font-bold text-gray-900">Daily Inspiration</h3>
                 <span className="text-xl">💖</span>
               </div>
-              
-              <div className="bg-gradient-to-br from-purple-50 to-orange-50 rounded-xl p-4 mb-4">
-                <div className="h-32 bg-gradient-to-r from-purple-600 to-orange-500 rounded-lg mb-4 flex items-center justify-center">
+
+              <div className="bg-blue-50 rounded-xl p-4 mb-4">
+                <div className="h-32 bg-blue-600 rounded-lg mb-4 flex items-center justify-center">
                   <p className="text-white text-center px-4 font-medium italic">
                     "She believed she could, so she did. Every small step forward is a victory worth celebrating."
                   </p>
@@ -556,7 +556,7 @@ function App() {
                 <p className="text-sm text-gray-600 italic">"I am capable of achieving my goals and creating positive change in my life."</p>
               </div>
 
-              <button className="w-full py-3 bg-gradient-to-r from-purple-600 to-orange-500 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-orange-600 transition-all">
+              <button className="w-full py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all">
                 <Heart className="w-4 h-4 inline mr-2" />
                 Get New Inspiration
               </button>
@@ -565,13 +565,13 @@ function App() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-12 bg-gradient-to-r from-purple-600 to-orange-500 rounded-2xl p-8 text-white text-center">
+        <div className="mt-12 bg-blue-600 rounded-2xl p-8 text-white text-center">
           <div className="flex items-center justify-center mb-4">
             <Calendar className="w-8 h-8 mr-3" />
             <h3 className="text-2xl font-bold">Time for Your Weekly Check-in! 📋</h3>
           </div>
-          <p className="text-purple-100 mb-6">Reflect on your progress and set intentions for the week ahead.</p>
-          <button className="px-8 py-4 bg-white text-purple-600 rounded-xl font-bold hover:bg-gray-100 transition-colors">
+          <p className="text-blue-100 mb-6">Reflect on your progress and set intentions for the week ahead.</p>
+          <button className="px-8 py-4 bg-white text-blue-600 rounded-xl font-bold hover:bg-gray-100 transition-colors">
             Start Check-in
           </button>
         </div>
@@ -580,7 +580,7 @@ function App() {
       {/* Chat Button */}
       <button 
         onClick={() => setShowChat(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-purple-600 to-orange-500 text-white rounded-full shadow-lg hover:from-purple-700 hover:to-orange-600 transition-all flex items-center justify-center"
+        className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-all flex items-center justify-center"
       >
         <MessageCircle className="h-6 w-6" />
       </button>
