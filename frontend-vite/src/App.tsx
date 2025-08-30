@@ -1,156 +1,119 @@
-import { useState } from 'react'
-import { Target, Plus, MessageCircle, Star, Calendar, Heart, CheckCircle, User, Settings, Bell } from 'lucide-react'
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Target, Plus, MessageCircle, Star, Calendar, Heart, CheckCircle, User, Settings, Bell } from 'lucide-react';
+import { useAuth } from './AuthContext'; // Import useAuth
+import useUser from "./hooks/useUser";
+import useGoals from "./hooks/useGoals";
 
 function App() {
-  const [showGoalForm, setShowGoalForm] = useState(false)
-  const [showChat, setShowChat] = useState(false)
+  const [isLogin, setIsLogin] = useState(true); // To toggle between login and register
 
-  if (showGoalForm) {
+  const { session, loading, signIn, signUp, signOut } = useAuth(); // Use the auth hook
+  const { data: user, isLoading: isUserLoading, isError: isUserError } = useUser();
+  const { data: goals, isLoading: areGoalsLoading, isError: areGoalsError } = useGoals();
+
+  // State for form inputs
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    try {
+      if (isLogin) {
+        await signIn(email, password);
+      } else {
+        await signUp(email, password, firstName, lastName);
+      }
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  if (loading || isUserLoading || areGoalsLoading) {
     return (
-      <div className="min-h-screen bg-gray-100 p-4">
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold text-gray-800">Create New Goal</h2>
-              <button 
-                onClick={() => setShowGoalForm(false)}
-                className="text-gray-400 hover:text-gray-600 text-xl"
-              >
-                ✕
-              </button>
-            </div>
-            
-            <div className="space-y-6">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                  What's your goal?
-                </label>
-                <input 
-                  type="text" 
-                  placeholder="e.g., Find a part-time job in retail"
-                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 transition-colors"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                  Why is this important to you?
-                </label>
-                <textarea 
-                  rows={4}
-                  placeholder="Describe why this goal matters to you..."
-                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 transition-colors"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-3">
-                    Category
-                  </label>
-                  <select className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 transition-colors">
-                    <option>Employment</option>
-                    <option>Skills</option>
-                    <option>Wellbeing</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-3">
-                    Due Date
-                  </label>
-                  <input 
-                    type="date" 
-                    className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 transition-colors"
-                  />
-                </div>
-              </div>
-              
-              <div className="flex gap-4 pt-6">
-                <button 
-                  onClick={() => setShowGoalForm(false)}
-                  className="flex-1 py-4 px-6 border-2 border-gray-200 rounded-xl font-semibold text-gray-600 hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button 
-                  onClick={() => setShowGoalForm(false)}
-                  className="flex-1 py-4 px-6 bg-gradient-to-r from-purple-600 to-orange-500 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-orange-600 transition-all shadow-lg"
-                >
-                  Create Goal
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <p className="text-xl font-semibold text-gray-700">Loading...</p>
       </div>
-    )
+    );
   }
 
-  if (showChat) {
+  if (!session) {
+    // Render Login/Registration UI
     return (
-      <div className="min-h-screen bg-gray-100 p-4">
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white rounded-xl shadow-lg h-[600px] flex flex-col">
-            <div className="bg-gradient-to-r from-purple-600 to-orange-500 text-white p-6 rounded-t-xl">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-3">
-                    <MessageCircle className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold">AI Coach</h2>
-                    <p className="text-purple-100 text-sm">Here to support your journey</p>
-                  </div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-600 to-orange-500 p-4">
+        <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+            {isLogin ? 'Welcome Back!' : 'Join Buildu Goals'}
+          </h2>
+          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+          <form onSubmit={handleAuth} className="space-y-4">
+            {!isLogin && (
+              <>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                  />
                 </div>
-                <button 
-                  onClick={() => setShowChat(false)}
-                  className="text-white/80 hover:text-white text-xl"
-                >
-                  ✕
-                </button>
-              </div>
-            </div>
-            
-            <div className="flex-1 p-6 overflow-y-auto">
-              <div className="bg-gray-50 rounded-xl p-4 mb-4">
-                <div className="flex items-start space-x-3">
-                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <MessageCircle className="h-4 w-4 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-gray-800">Hi Sarah! I noticed you're 80% through your CV goal. How are you feeling about your progress? 👋</p>
-                  </div>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                  />
                 </div>
-              </div>
-              
-              <div className="flex justify-center mb-4">
-                <div className="flex gap-2">
-                  <button className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm hover:bg-purple-200 transition-colors">
-                    Ask for help
-                  </button>
-                  <button className="px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm hover:bg-orange-200 transition-colors">
-                    Share progress
-                  </button>
-                </div>
-              </div>
+              </>
+            )}
+            <div>
+              <input
+                type="email"
+                placeholder="Email"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
-            
-            <div className="p-6 border-t border-gray-100">
-              <div className="flex gap-3">
-                <input 
-                  type="text" 
-                  placeholder="Type your message..."
-                  className="flex-1 p-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 transition-colors"
-                />
-                <button className="px-6 py-3 bg-gradient-to-r from-purple-600 to-orange-500 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-orange-600 transition-all">
-                  Send
-                </button>
-              </div>
+            <div>
+              <input
+                type="password"
+                placeholder="Password"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
-          </div>
+            <button
+              type="submit"
+              className="w-full py-3 bg-gradient-to-r from-purple-600 to-orange-500 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-orange-600 transition-all shadow-md"
+            >
+              {isLogin ? 'Login' : 'Register'}
+            </button>
+          </form>
+          <p className="text-center text-gray-600 mt-4">
+            {isLogin ? "Don't have an account?" : "Already have an account?"}{' '}
+            <button
+              onClick={() => setIsLogin(!isLogin)}
+              className="text-purple-600 font-semibold hover:underline"
+            >
+              {isLogin ? 'Register' : 'Login'}
+            </button>
+          </p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -178,6 +141,12 @@ function App() {
               <button className="p-2 text-gray-400 hover:text-gray-600">
                 <User className="h-5 w-5" />
               </button>
+              <button
+                onClick={signOut} // Add logout button
+                className="px-4 py-2 bg-red-500 text-white rounded-md text-sm font-medium hover:bg-red-600 transition-colors"
+              >
+                Logout
+              </button>
             </div>
           </div>
         </div>
@@ -188,11 +157,11 @@ function App() {
         <div className="bg-gradient-to-r from-purple-600 to-orange-500 rounded-2xl p-8 mb-8 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-3xl font-bold mb-2">Good morning, Sarah! 👋</h2>
+              <h2 className="text-3xl font-bold mb-2">Good morning, {user?.first_name}! 👋</h2>
               <p className="text-purple-100 text-lg">You're making amazing progress on your journey</p>
               <div className="flex gap-4 mt-4">
                 <div className="bg-white/20 rounded-full px-4 py-2">
-                  <span className="text-sm font-medium">3 goals active</span>
+                  <span className="text-sm font-medium">{goals?.length} goals active</span>
                 </div>
                 <div className="bg-white/20 rounded-full px-4 py-2">
                   <span className="text-sm font-medium">72% overall progress</span>
@@ -301,13 +270,13 @@ function App() {
             <div>
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-gray-900">Your Active Goals</h3>
-                <button 
-                  onClick={() => setShowGoalForm(true)}
+                <Link 
+                  to="/new-goal"
                   className="px-4 py-2 bg-gradient-to-r from-purple-600 to-orange-500 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-orange-600 transition-all flex items-center"
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   New Goal
-                </button>
+                </Link>
               </div>
               
               <div className="grid gap-6">
@@ -470,12 +439,12 @@ function App() {
               </div>
 
               <div className="flex gap-2 mb-4">
-                <button 
-                  onClick={() => setShowChat(true)}
+                <Link 
+                  to="/chat"
                   className="flex-1 py-2 px-4 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
                 >
                   Ask for help
-                </button>
+                </Link>
                 <button className="flex-1 py-2 px-4 border border-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
                   Share progress
                 </button>
@@ -578,14 +547,14 @@ function App() {
       </div>
 
       {/* Chat Button */}
-      <button 
-        onClick={() => setShowChat(true)}
+      <Link 
+        to="/chat"
         className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-purple-600 to-orange-500 text-white rounded-full shadow-lg hover:from-purple-700 hover:to-orange-600 transition-all flex items-center justify-center"
       >
         <MessageCircle className="h-6 w-6" />
-      </button>
+      </Link>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

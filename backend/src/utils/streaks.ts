@@ -5,35 +5,42 @@ export const calculateStreak = (progressUpdates: ProgressUpdate[]): number => {
     return 0;
   }
 
-  const sortedUpdates = progressUpdates.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  );
+  const normalizeDate = (date: Date): number => {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    return d.getTime();
+  };
+
+  const uniqueDates = Array.from(new Set(progressUpdates.map(update => normalizeDate(new Date(update.createdAt)))));
+  uniqueDates.sort((a, b) => b - a); // Descending order
 
   let streak = 0;
-  let lastDate = new Date();
+  const today = normalizeDate(new Date());
+  const yesterday = normalizeDate(new Date(today - (24 * 60 * 60 * 1000)));
 
-  const today = new Date();
-  const todayString = today.toDateString();
-  const hasActivityToday = sortedUpdates.some(
-    (update) => new Date(update.createdAt).toDateString() === todayString
-  );
-
-  if (hasActivityToday) {
+  // Check if the most recent activity is today or yesterday
+  if (uniqueDates[0] === today) {
     streak = 1;
-    lastDate = today;
+  } else if (uniqueDates[0] === yesterday) {
+    streak = 1;
+  } else {
+    return 0; // No activity today or yesterday, so no streak
   }
 
-  for (let i = 1; i < sortedUpdates.length; i++) {
-    const updateDate = new Date(sortedUpdates[i].createdAt);
-    const diff = lastDate.getTime() - updateDate.getTime();
-    const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+  // Iterate through the rest of the unique dates
+  for (let i = 1; i < uniqueDates.length; i++) {
+    const currentDate = uniqueDates[i];
+    const previousDateInStreak = uniqueDates[i - 1];
+    const expectedCurrentDate = normalizeDate(new Date(previousDateInStreak - (24 * 60 * 60 * 1000)));
 
-    if (diffDays === 1) {
+    if (currentDate === expectedCurrentDate) {
       streak++;
-      lastDate = updateDate;
-    } else if (diffDays > 1) {
+    } else if (currentDate < expectedCurrentDate) {
+      // If the current date is older than expected, it means there's a gap
       break;
     }
+    // If currentDate > expectedCurrentDate, it means there were multiple activities on the same day, which is fine.
+    // We just continue to the next unique date.
   }
 
   return streak;

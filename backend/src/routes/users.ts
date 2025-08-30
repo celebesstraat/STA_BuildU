@@ -2,6 +2,7 @@ import express from 'express';
 import supabase from '../utils/database';
 import { authenticateToken } from '../middleware/auth';
 import { calculateStreak } from '../utils/streaks';
+import { ApiResponse, User, ProgressUpdate } from '../types';
 
 const router = express.Router();
 
@@ -146,7 +147,7 @@ router.get('/dashboard', async (req, res) => {
     const completedGoals = goals?.filter(g => g.status === 'completed').length || 0;
     const progressPercentage = totalGoals > 0 ? Math.round((completedGoals / totalGoals) * 100) : 0;
 
-    const streak = calculateStreak(recentUpdates);
+    const streak = calculateStreak(recentUpdates as ProgressUpdate[]);
 
     // Get next milestone or focus
     const { data: upcomingMilestones } = await supabase

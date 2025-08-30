@@ -2,13 +2,26 @@
   "name": "buildu-scotland-platform",
   "version": "1.0.0",
   "description": "A web-based goal tracking and motivational platform supporting women in Buildu Scotland's employability programme.",
+  "type": "module",
   "main": "playwright-snapshot.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "test": "npx playwright test",
-    "mcp": "ts-node mcp-server.ts"
+    "mcp": "ts-node mcp-server.ts",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "npx prettier --write"
+    ],
+    "frontend-vite/**/*.{js,jsx,ts,tsx}": [
+      "npx eslint --fix"
+    ],
+    "backend/**/*.ts": [
+      "npx eslint --fix"
+    ]
   },
   "repository": {
     "type": "git",
@@ -23,7 +36,14 @@
   "homepage": "https://github.com/celebesstraat/STA_BuildU#readme",
   "devDependencies": {
     "@playwright/test": "^1.55.0",
-    "@types/node": "^24.3.0"
+    "@types/node": "^24.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.41.0",
+    "@typescript-eslint/parser": "^8.41.0",
+    "eslint": "^9.34.0",
+    "eslint-plugin-react": "^7.37.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.5",
+    "prettier": "^3.6.2"
   },
   "dependencies": {
     "playwright-mcp": "^0.0.12"

@@ -87,3 +87,9 @@ The project is a web-based goal-tracking and motivational platform designed to s
 *   **Frontend:** Vercel
 *   **Backend:** Railway
 *   **Database:** Supabase
+
+## FAQ
+
+### How do I spin up a UI preview?
+
+To spin up the UI development server, you'll need to navigate to the `frontend-vite` directory and run the `dev` script. This will start a local development server, typically accessible in your browser at `http://localhost:5173` (or a similar port). You can use the command: `cd frontend-vite && npm run dev &`. If you want to preview a production build of the UI, you would first need to build it using `npm run build` and then run `npm run preview`.
