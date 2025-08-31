@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Target, Plus, MessageCircle, Star, Calendar, Heart, CheckCircle, User, Settings, Bell } from 'lucide-react';
-import { useAuth } from './AuthContext'; // Import useAuth
+import { useAuth } from './hooks/useAuth';
 import useUser from "./hooks/useUser";
 import useGoals from "./hooks/useGoals";
 
@@ -9,8 +9,8 @@ function App() {
   const [isLogin, setIsLogin] = useState(true); // To toggle between login and register
 
   const { session, loading, signIn, signUp, signOut } = useAuth(); // Use the auth hook
-  const { data: user, isLoading: isUserLoading, isError: isUserError } = useUser();
-  const { data: goals, isLoading: areGoalsLoading, isError: areGoalsError } = useGoals();
+  const { data: user, isLoading: isUserLoading } = useUser();
+  const { data: goals, isLoading: areGoalsLoading } = useGoals();
 
   // State for form inputs
   const [email, setEmail] = useState('');
@@ -28,8 +28,8 @@ function App() {
       } else {
         await signUp(email, password, firstName, lastName);
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
     }
   };
 
